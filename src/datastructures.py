@@ -6,31 +6,34 @@ update this file to implement the following already declared methods:
 - update_member: Should update a member from the self._members list
 - get_member: Should return a member from the self._members list
 """
-from random import randint
 
 class FamilyStructure:
     def __init__(self, last_name):
         self.last_name = last_name
-
-        # example list of members
+        self._next_id = 1
         self._members = []
 
-    # read-only: Use this method to generate random members ID's when adding members into the list
-    def _generateId(self):
-        return randint(0, 99999999)
-
+    def _generate_id(self):
+        generated_id = self._next_id
+        self._next_id += 1
+        return generated_id
+    
     def add_member(self, member):
-        # fill this method and update the return
-        pass
+        if "id" not in member:  
+            member["id"] = self._generate_id() 
+        self._members.append(member)
 
     def delete_member(self, id):
-        # fill this method and update the return
-        pass
+        new_members = []
+        for m in self._members:
+            if m["id"] != id:
+                new_members.append(m)
+        self._members = new_members
 
     def get_member(self, id):
-        # fill this method and update the return
-        pass
+        return next((m for m in self._members if m["id"] == id), None)
 
+    
     # this method is done, it returns a list with all the family members
     def get_all_members(self):
         return self._members
